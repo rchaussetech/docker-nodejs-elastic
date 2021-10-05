@@ -1,0 +1,23 @@
+{
+  "name": "docker-nodejs-elastic",
+  "version": "1.0.0",
+  "description": "Docker: Node.js + Elastic Stack - Elasticsearch e Kibana",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Raviel Chausse Silveira",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "elasticsearch": "^16.7.2",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.13"
+  }
+}
+

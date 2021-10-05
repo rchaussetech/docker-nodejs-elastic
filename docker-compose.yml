@@ -1,0 +1,58 @@
+version: '3.8'
+
+networks: 
+  mynetwork:
+    driver: bridge
+    
+volumes:
+  esdata:
+  src:
+
+services:
+
+  mynodejs:
+    container_name: MY_NODEJS
+    build:
+      context: .
+    environment:
+      NODE_PORT: 3000
+      NODE_ENV: development
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    ports:
+      - 3000:3000
+    volumes:
+      - ./src/:/home/app/src/
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    networks: 
+      - mynetwork
+  
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.14.1
+    container_name: MY_KIBANA
+    ports:
+      - 5601:5601
+    environment:
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch
+    networks: 
+      - mynetwork
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.14.1
+    container_name: MY_ELASTICSEARCH
+    ports: 
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+    volumes:
+      - ./esdata/:/usr/share/elasticsearch/data/
+    networks:
+      - mynetwork
